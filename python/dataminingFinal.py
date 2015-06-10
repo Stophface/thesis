@@ -32,9 +32,9 @@ connector.execute('''create table if not exists NAMEOFDATABASE
                   )
 
 f = open("documentation", "w") #create file to write the documentation to
-t = open("timeouts", "w") #create file to write the documentation to
+t = open("timeouts", "w") #create file to write the timouts (when connection to Flickr API is lost) to
 
-p = "FILEWITHBBOXES.csv" 
+p = "FILEWITHBBOXES.csv" #csv with the coordinates of bounding boxes. 
 with open(p, "r") as cursor: #copen .csv file with grid
     for row in cursor: #iterate through file
         elements = row.split(",") #split on limiter
