@@ -1,6 +1,6 @@
-Python
+<h1>**Python**</h1>
 
-dataminingFinal.py
+<h2>*dataminingFinal.py*</h2>
 
 Written in Python 2.7
 
@@ -28,7 +28,6 @@ For each bbox, an unique URL is created, called and each site is screenscraped. 
 However, this will result in bboxes from which no information will be downloaded since the connection to the Flickr API gets lost for that bbox (and the so created URL). This error does not occur often. If information needed, the bboxes for which the script times out, are written to the file "timeouts" 
 
 Each step the script does is documented in the files "documentation". If the script crashes for any reasons, it can be restarted. Simply check at which bbox the script crashed and type its number into line 50 (if stop < 0:). 
-
 
 
 **What is that .csv file?**
