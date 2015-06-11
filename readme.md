@@ -1,6 +1,6 @@
 <h1>Where to go?</h1>
 
-The following text roughly, how the maps in the folder `maps` were created. 
+The following text explains roughly, how the maps in the folder `maps` were created. 
 
 Source basemaps Afghanistan:
 Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: https://esoc.princeton.edu/file-type/gis-data, Cities: http://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/
@@ -14,7 +14,7 @@ Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: http://www.naturalearthdata
 
 Written in Python 3.3
 
-**General information**
+**How was the data downlaoded**
 
 The script uses the "flickr.photos.search" (REST API in XML format; https://www.flickr.com/services/api/flickr.photos.search.html) to download the following information for each photo found within the bounding box (bbox)
 
@@ -47,11 +47,12 @@ This created .csv file needs to be the inputfile of `p` (`p = "FILEWITHBBOXES.cs
 
 <h3> example_langid.py</h3>
  
- Written in Python 3.3
+Written in Python 3.3
 
- Needs the langid library installed (https://github.com/saffsd/langid.py)
+Needs the langid library installed (https://github.com/saffsd/langid.py)
 
- Iterates through the SQLite database and uses (here) the title for language identification. Writes the identified language (no matter how high the reliability is) to the same SQLite database.
+It identifies the language used 'on' the photo with the langid library.
+Iterates through the SQLite database and uses (here) the title for language identification. Writes the identified language (no matter how high the reliability is) to the same SQLite database.
 
 
 
@@ -61,7 +62,8 @@ Written in Python 3.3
 
 Needs the Chromium compact language detector (cld) library installed (https://pypi.python.org/pypi/chromium_compact_language_detector/0.1.1)
 
- Iterates through the SQLite database and uses (here) the description for language identification. Writes the identified language (no matter how high the reliability is) to the same SQLite database.
+It identifies the language used 'on' the photo with the cld library.
+Iterates through the SQLite database and uses (here) the description for language identification. Writes the identified language (no matter how high the reliability is) to the same SQLite database.
 
 
 
@@ -69,7 +71,8 @@ Needs the Chromium compact language detector (cld) library installed (https://py
 
 Written in Python 3.3
 
-Defines the final language of the photos. It uses the identified languages of the langid and cld library (title, tags description) and follows the following Boolean logic:
+To be done after the language was identified with the cld- and langid library for title, tags and description.
+Defines the final language of the photos. It uses the identified languages of the langid and cld library (title, tags description) and follows the following Boolean logic to determine through an intersection the final language:
 
     No   Title     Tag     Description     Title     Tag     Description     Boolean     Language
          LID I     LID I   LID I           LID II    LID II  LID II          Outcome     Final
@@ -89,20 +92,22 @@ Through the hierachy in the code it becomes obvious, which combination of possbi
 
 <h2>postgres:postgis</h2>
 
-To run the lines in the file PostgreSQL with the PostGIS is needed. A boundled package can be downloaded here: http://www.kyngchaos.com/software/postgres.
+PostgreSQL with the PostGIS is needed. A boundled package can be downloaded here: http://www.kyngchaos.com/software/postgres.
 
-More meaningful assumptions about the distribution of points on a map can be made when the map is divided into polygons, the points are counted inside each polygon and finally summed up per polygon. This process is called binning.
+More meaningful assumptions about the distribution of points on a map can be made when the map is divided into polygons (here hexagons), the points are counted inside each hexagon and finally summed up per hexagon. This process is called binning.
 
     UPDATE hexagonFinerWgs_clip SET count = (SELECT count(*) FROM points_france WHERE ST_Within(points_france.geom, hexagonFinerWgs_clip.geom));
 
 
-The same goes for the language. Since through the Boolean Logic each photo got a language assigned to, we can plot each point (because it has lat/long) on a map. The following lines count the points per polygon, group them by the language and order them.
+The same goes for the language. Since through the Boolean Logic each photo got a language assigned to, we can plot each point (because it has lat/long) on a map. The following lines count the points per hexagon and groups them by the language.
 
      CREATE TABLE count_language_france AS SELECT count(*), france.language, hexagons.gid, hexagons.top, hexagons.bottom, hexagons.left, hexagons.right, hexagons.geom FROM hexagonfinerwgs_clip AS hexagons, points_language_france AS france WHERE ST_Within(france.geom, hexagons.geom) GROUP BY france.language, hexagons.gid ORDER BY hexagons.gid DESC;
 
 
-Now there are for example Farsi, Dari and English counted in one polygon. We are only interested in the most language. 
+Nearly done. There are for example Farsi, Dari and English counted in one hexagon. But, we are only interested in the most usedlanguage per hexagon. Therefore the `SELECT DISTINCT ON` is used to only pick one (!) of a group (here, the one with the most counts)
 
      CREATE TABLE count_language_france_binning2 AS SELECT DISTINCT ON (t.gid) t.gid, t.language, t.count, t.top, t.right, t.bottom, t.geom FROM count_language_france AS t ORDER BY t.gid, t.count DESC;
 
+
+The code is in the `postgres:postgis` in a `.sql` document as well. 
 
