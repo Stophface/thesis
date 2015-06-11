@@ -1,9 +1,18 @@
+<h1>Where to go?</h1>
+
+The following text roughly, how the maps in the folder `maps` were created. 
+
+Source basemaps Afghanistan:
+Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: https://esoc.princeton.edu/file-type/gis-data, Cities: http://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/
+Source basemaps France:
+Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: http://www.naturalearthdata.com/downloads/10m-cultural-vectors/roads/, Cities: http://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/
+
+
 <h2>Python</h2>
 
 <h3>dataminingFinal.py</h3>
 
 Written in Python 3.3
-
 
 **General information**
 
@@ -26,8 +35,6 @@ For unknown reasons, the connection to the Flickr API gets lost. To stay "connec
 However, this will result in bboxes from which no information will be downloaded since the connection to the Flickr API gets lost for that bbox (and the so created URL). This error does not occur often. The bboxes for which the script times out, hence no data was downlaoded, are written to the file `timeouts` 
 
 Each step the script does is documented in the files `documentation`. If the script crashes for any reasons, it can be restarted. Simply check at which bbox the script crashed and type its number into line 50 (if stop < 0:). 
-
-
 
 **What is that .csv file?**
 
@@ -78,3 +85,24 @@ Defines the final language of the photos. It uses the identified languages of th
 
 Since only langid can identify pashto (here 'OO') the logic is slightly modified for this language (row 7,8,9).
 Through the hierachy in the code it becomes obvious, which combination of possbilities is weighted 'heavier'. 
+
+
+<h2>postgres:postgis</h2>
+
+To run the lines in the file PostgreSQL with the PostGIS is needed. A boundled package can be downloaded here: http://www.kyngchaos.com/software/postgres.
+
+More meaningful assumptions about the distribution of points on a map can be made when the map is divided into polygons, the points are counted inside each polygon and finally summed up per polygon. This process is called binning.
+
+    UPDATE hexagonFinerWgs_clip SET count = (SELECT count(*) FROM points_france WHERE ST_Within(points_france.geom, hexagonFinerWgs_clip.geom));
+
+
+The same goes for the language. Since through the Boolean Logic each photo got a language assigned to, we can plot each point (because it has lat/long) on a map. The following lines count the points per polygon, group them by the language and order them.
+
+     CREATE TABLE count_language_france AS SELECT count(*), france.language, hexagons.gid, hexagons.top, hexagons.bottom, hexagons.left, hexagons.right, hexagons.geom FROM hexagonfinerwgs_clip AS hexagons, points_language_france AS france WHERE ST_Within(france.geom, hexagons.geom) GROUP BY france.language, hexagons.gid ORDER BY hexagons.gid DESC;
+
+
+Now there are for example Farsi, Dari and English counted in one polygon. We are only interested in the most language. 
+
+     CREATE TABLE count_language_france_binning2 AS SELECT DISTINCT ON (t.gid) t.gid, t.language, t.count, t.top, t.right, t.bottom, t.geom FROM count_language_france AS t ORDER BY t.gid, t.count DESC;
+
+
