@@ -7,7 +7,7 @@ import urllib2
 
 #creating SQLite Database and Table
 connector = sqlite3.connect("NAMEOFDATABASE.db") #create Database and Table
-connector.execute('''create table if not exists NAMEOFDATABASE
+connector.execute('''create table if not exists NAMEOFTABLE
         (id_db INTEGER PRIMARY KEY AUTOINCREMENT,
         id_photo INTEGER,
         title TEXT,

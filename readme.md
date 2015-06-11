@@ -15,7 +15,7 @@ Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: http://www.naturalearthdata
 
 **How was the data downlaoded**
 
-The script uses the "flickr.photos.search" (REST API in XML format; https://www.flickr.com/services/api/flickr.photos.search.html) to download the following information for each photo found within the bounding box (bbox)
+The script uses the `flickr.photos.search` (REST API in XML format; https://www.flickr.com/services/api/flickr.photos.search.html) to download the following information for each photo found within the bounding box (bbox)
 
 - id photo
 - title
@@ -29,13 +29,13 @@ The script uses the "flickr.photos.search" (REST API in XML format; https://www.
 
 The information are downloaded through screenscraping with the Library "BeautifulSoup" (http://www.crummy.com/software/BeautifulSoup/) and are written to a SQLite3 database.
 The script iterates through a .csv which contains the corners of the bboxes spanned over the area of interest.
-For each bbox, an unique URL is created, called and screenscraped. If there is more content than can be displayed on page 1 (250 datasets), it opens the next page with the coordinates of the curent bbox and downloads the data on page 2 as well. This will be repeated up to 16 times. Then the script goes to the next row in the .csv file and uses the next bbox.
-For unknown reasons, the connection to the Flickr API gets lost. To stay "connected" the "urllib2" of Python is used. If connection times out, the script will go on with the next row in the .csv file and starts to create URL's for the corresponding bbox. 
-However, this will result in bboxes from which no information will be downloaded since the connection to the Flickr API gets lost for that bbox (and the so created URL). This error does not occur often. The bboxes for which the script times out, hence no data was downlaoded, are written to the file `timeouts` 
+For each bbox, an unique URL is created, called and screenscraped. If there is more content than can be displayed on page 1 (250 datasets), it opens the next page with the coordinates of the current bbox and downloads the data on page 2 as well. This will be repeated up to 16 times. Then the script goes to the next row in the `.csv-file` and uses the next bbox.
+For unknown reasons, the connection to the Flickr API gets lost. To stay "connected" the `urllib2` of Python is used. If connection times out, the script will go on with the next row in the `.csv-file` and starts to create URL's for the corresponding bbox. 
+However, this will result in bboxes from which no information will be downloaded since the connection to the Flickr API gets lost for that bbox (and the so created URL). This error does not occur often. The bboxes for which the script times out, hence no data was downloaded, are written to the file `timeouts` 
 
 Each step the script does is documented in the files `documentation`. If the script crashes for any reasons, it can be restarted. Simply check at which bbox the script crashed and type its number into line 50 (if stop < 0:). 
 
-**What is that .csv file?**
+**What is that `.csv file`?**
 
 To perform a geoquerry on Flickr with a bbox, the coordinates of the corner of the bbox need be known. 
 With a geoquery request, 250 photos are returned per page in the browser (max 16 pages) and only 4.000 photos per bbox in total. Therefore, if information for a whole country or urban area need to be downloaded, the bboxes need to be split into smaller bboxes. 
@@ -83,20 +83,20 @@ Defines the final language of the photos. It uses the identified languages of th
     9.   YY        YY      -               YY        YY      OO              TRUE        OO
 
 Since only langid can identify pashto (here 'OO') the logic is slightly modified for this language (row 7,8,9).
-Through the hierachy in the code it becomes obvious, which combination of possbilities is weighted 'heavier'. 
+Through the hierarchy in the code it becomes obvious, which combination of possibilities is weighted 'heavier'. 
 
 
 
-<h3>usage_language.py</h3>
+<h3>ranking_language.py</h3>
 
 
-This is not needed to create the map. But, if you are interested in which language was used the most in your downloaded data. All the libraries used (csv, operator, sqlite3, ) in this script come naturally with Python.  I took a detour with reading out the rows from the Database where the language was everything, but undefined ("un") and wrote these rows to a .`csv` file. Afterwards, a simple dictionary and update was used to count how often which language occured. 
+This is not needed to create the map. But, if you are interested in which language was used the most in your downloaded data. All the libraries used (csv, operator, sqlite3, ) in this script come naturally with Python.  I took a detour with reading out the rows from the Database where the language was everything, but undefined ("un") and wrote these rows to a .`csv` file. Afterwards, a simple dictionary and update was used to count how often which language occurred. 
 
 
 
 <h3>ranking_tags</h3>
 
-This is not needed to create the map neither. However, it deploys a ranking which tag(s) where used the most. The nltk library was used which comes naturally with Python. It uses the process of stemming to reduce the words to their linguistic stem which allows a more meaningful ranking ('dancer', 'dancing' and 'dance' will be reduced to 'danc' which is desired since all the words refer to the same activity). It iterates through a dictionary and only selectes the rows for the matching language (a Stemmer needs a defined input language). For exmple in the first iteration the script only reads out the rows where the `language_final` was set to da (danish). It creates a dictionary and updates it corresponding to how often a word was used and finally writes the ranking to a `.csv` file. 
+This is not needed to create the map neither. However, it deploys a ranking which tag(s) where used the most. The nltk library was used which comes naturally with Python. It uses the process of stemming to reduce the words to their linguistic stem which allows a more meaningful ranking ('dancer', 'dancing' and 'dance' will be reduced to 'danc' which is desired since all the words refer to the same activity). It iterates through a dictionary and only selects the rows for the matching language (a Stemmer needs a defined input language). For example in the first iteration the script only reads out the rows where the `language_final` was set to `da (danish)`. It creates a dictionary and updates it corresponding to how often a word was used and finally writes the ranking to a `.csv` file. 
 
 
 
@@ -121,3 +121,8 @@ Nearly done. There are for example Farsi, Dari and English counted in one hexago
 
 The code is in the `postgres:postgis` in a `.sql` document as well. 
 
+
+
+<h3>example_bboxes</h3>
+
+The folder contains two `shapefiles` and two `.csv-files` with the bboxes (basically a grid layed over the country) used to download the data. 

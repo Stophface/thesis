@@ -2,17 +2,17 @@ import csv
 import sqlite3
 import operator
 
-f = open('afghanistan_language.csv', 'w')
+f = open('language.csv', 'w')
 f.write(str('id_db') + '\t' + str('longitude') + '\t' + str('latitude') + '\t' + str('language') + '\n')
 
 n = 0
 
-inputDB = "originalAfghanistan.db"
+inputDB = "MyDB.db"
 
 
 connector = sqlite3.connect(inputDB)
 selecter = connector.cursor()
-selecter.execute('''SELECT id_db, longitude, latitude, language_final from DATAAFGHANISTAN WHERE language_final != "un" ''')
+selecter.execute('''SELECT id_db, longitude, latitude, language_final from TableInDb WHERE language_final != "un" ''')
 
 
 for row in selecter:

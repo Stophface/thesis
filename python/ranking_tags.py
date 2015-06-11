@@ -6,7 +6,7 @@ import operator
 #set Stemmer to language
 ranking = {}
 counter = 1
-inputDb = "originalAfghanistan.db"
+inputDb = "MyDB.db"
 lanDict = {'da' : 'danish', 'nl' : 'dutch', 'en' : 'english', 'fi' : 'finnish', 'fr' : 'french', 'de' : 'german', 'hu' : 'hungarian', 'it' : 'italian', 'no' : 'norwegian',  'pt' : 'portuguese', 'ro' : 'romanian', 'ru' : 'russian', 'es' : 'spanish', 'sv' : 'swedish'}
 lanlist = ['da', 'nl', 'en', 'fi' , 'fr', 'de' , 'hu' , 'it' , 'no' ,  'pt' , 'ro' , 'ru' , 'es' , 'sv']
 
@@ -18,7 +18,7 @@ selecter = connector.cursor() #create cursor
 
 for i in lanlist:
 	n = 0
-	selecter.execute(''' SELECT id_db, tags FROM DATAAFGHANISTAN WHERE language_final == "{}" '''.format(i)) #chose table and execute selecter
+	selecter.execute(''' SELECT id_db, tags FROM TableInDb WHERE language_final == "{}" '''.format(i)) #chose table and execute selecter
 	stemmer = SnowballStemmer("{}".format(lanDict[i]))
 	
 	print ("New language " + str(lanDict[i]) + " selected")

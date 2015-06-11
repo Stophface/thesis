@@ -12,7 +12,7 @@ selecter = connector.cursor()
 #selecter.execute('''ALTER TABLE DATAAFGHANISTAN ADD COLUMN "language_final" 'TEXT' ''')
 ##########
 
-selecter.execute('''SELECT id_db, tags_abbreviation_chrome, tags_abbreviation_langid, title_abbreviation_chrome, title_abbreviation_langid, description_abbreviation_chrome, description_abbreviation_langid FROM DATAAFGHANISTAN''')
+selecter.execute('''SELECT id_db, tags_abbreviation_chrome, tags_abbreviation_langid, title_abbreviation_chrome, title_abbreviation_langid, description_abbreviation_chrome, description_abbreviation_langid FROM TableInDb''')
 #order
 # 0 = id_db
 # 1 = tags chrome
