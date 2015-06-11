@@ -64,9 +64,9 @@ Written in Python 3.3
 
 Defines the final language of the photos. It uses the identified languages of the langid and cld library (title, tags description) and follows the following Boolean logic:
 
-**No   Title     Tag     Description     Title     Tag     Description     Boolean     Language**
-*     LID I     LID I   LID I           LID II    LID II  LID II          Outcome     Final*
-1.   XX        XX      -               XX        XX      -               TRUE        XX
+    **No   Title     Tag     Description     Title     Tag     Description     Boolean     Language**
+    *     LID I     LID I   LID I           LID II    LID II  LID II          Outcome     Final*
+    1.   XX        XX      -               XX        XX      -               TRUE        XX
 2.   XX        YY      -               XX        XX      -               FALSE       None
 3.   YY        YY      XX              YY        YY      XX              TRUE        YY
 4.   YY        YY      XX              YY        YY      ZZ              FALSE       None
