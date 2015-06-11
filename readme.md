@@ -1,4 +1,4 @@
-<h1>Where to go?</h1>
+<h1>What do the code snippets do?</h1>
 
 The following text explains roughly, how the maps in the folder `maps` were created. 
 
@@ -10,9 +10,8 @@ Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: http://www.naturalearthdata
 
 <h2>Python</h2>
 
-<h3>dataminingFinal.py</h3>
+<h3>datamining_final.py</h3>
 
-Written in Python 3.3
 
 **How was the data downlaoded**
 
@@ -47,7 +46,6 @@ This created .csv file needs to be the inputfile of `p` (`p = "FILEWITHBBOXES.cs
 
 <h3> example_langid.py</h3>
  
-Written in Python 3.3
 
 Needs the langid library installed (https://github.com/saffsd/langid.py)
 
@@ -56,9 +54,8 @@ Iterates through the SQLite database and uses (here) the title for language iden
 
 
 
-<h3>example_chromium</h3>
+<h3>example_chromium.py</h3>
 
-Written in Python 3.3
 
 Needs the Chromium compact language detector (cld) library installed (https://pypi.python.org/pypi/chromium_compact_language_detector/0.1.1)
 
@@ -67,9 +64,8 @@ Iterates through the SQLite database and uses (here) the description for languag
 
 
 
-<h3>booleanLogic.py</h3>
+<h3>boolean_logic.py</h3>
 
-Written in Python 3.3
 
 To be done after the language was identified with the cld- and langid library for title, tags and description.
 Defines the final language of the photos. It uses the identified languages of the langid and cld library (title, tags description) and follows the following Boolean logic to determine through an intersection the final language:
@@ -88,6 +84,20 @@ Defines the final language of the photos. It uses the identified languages of th
 
 Since only langid can identify pashto (here 'OO') the logic is slightly modified for this language (row 7,8,9).
 Through the hierachy in the code it becomes obvious, which combination of possbilities is weighted 'heavier'. 
+
+
+
+<h3>usage_language.py</h3>
+
+
+This is not needed to create the map. But, if you are interested in which language was used the most in your downloaded data. All the libraries used (csv, operator, sqlite3, ) in this script come naturally with Python.  I took a detour with reading out the rows from the Database where the language was everything, but undefined ("un") and wrote these rows to a .`csv` file. Afterwards, a simple dictionary and update was used to count how often which language occured. 
+
+
+
+<h3>ranking_tags</h3>
+
+This is not needed to create the map neither. However, it deploys a ranking which tag(s) where used the most. The nltk library was used which comes naturally with Python. It uses the process of stemming to reduce the words to their linguistic stem which allows a more meaningful ranking ('dancer', 'dancing' and 'dance' will be reduced to 'danc' which is desired since all the words refer to the same activity). It iterates through a dictionary and only selectes the rows for the matching language (a Stemmer needs a defined input language). For exmple in the first iteration the script only reads out the rows where the `language_final` was set to da (danish). It creates a dictionary and updates it corresponding to how often a word was used and finally writes the ranking to a `.csv` file. 
+
 
 
 <h2>postgres:postgis</h2>
