@@ -70,7 +70,7 @@ Iterates through the SQLite database and uses (in this example here) the descrip
 <h3>boolean_logic.py</h3>
 
 
-To be done after the language was identified with the `cld-` and `langid library` for `title`, `tags` and `description.
+To be done after the language was identified with the `cld-` and `langid library` for `title`, `tags` and `description`.
 Defines the final language of the photos. It uses the identified languages of the `langid` and `cld library` (`title, tags description) and follows following Boolean logic to determine through an intersection (of `title, tags description) the final language:
 
     No   Title     Tag     Description     Title     Tag     Description     Boolean     Language
