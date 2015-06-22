@@ -8,6 +8,8 @@ Source basemaps France:
 Worldmap: Bjorn Sandvik, thematicmapping.org, Roads: http://www.naturalearthdata.com/downloads/10m-cultural-vectors/roads/, Cities: http://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/
 
 
+I recoomend to use Python 3.3 since it makes coding and encoding of characters easier.
+
 <h2>Python</h2>
 
 <h3>datamining_final.py</h3>
