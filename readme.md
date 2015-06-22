@@ -71,7 +71,7 @@ Iterates through the SQLite database and uses (in this example here) the descrip
 
 
 To be done after the language was identified with the `cld-` and `langid library` for `title`, `tags` and `description`.
-Defines the final language of the photos. It uses the identified languages of the `langid` and `cld library` (`title, tags description) and follows following Boolean logic to determine through an intersection (of `title, tags description) the final language:
+Defines the final language of the photos. It uses the identified languages of the `langid` and `cld library` (`title, tags description`) and follows following Boolean logic to determine through an intersection (of `title, tags description) the final language:
 
     No   Title     Tag     Description     Title     Tag     Description     Boolean     Language
          LID I     LID I   LID I           LID II    LID II  LID II          Outcome     Final
