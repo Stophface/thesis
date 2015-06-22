@@ -40,7 +40,7 @@ Each step the script does is documented in the files `documentation`. If the scr
 
 To perform a geoquerry on Flickr with a bbox, the coordinates of the corner of the bbox need be known. 
 With a geoquery request, 250 photos are returned per page in the browser (max 16 pages) and only 4.000 photos per bbox in total. Therefore, if information for a whole country or urban area need to be downloaded, the bboxes need to be split into smaller bboxes. 
-To create a grid of small bboxes over the area of interest, QGIS (http://www.qgis.org/en/site/) and the tool `Vector - Research Tools - Vector Grid (Output as Polygons) can be used. Save the output file as .csv.
+To create a grid of small bboxes over the area of interest, QGIS (http://www.qgis.org/en/site/) and the tool `Vector - Research Tools - Vector Grid (Output as Polygons)` can be used. Save the output file as .csv.
 This created .csv file needs to be the inputfile of `p` (`p = "FILEWITHBBOXES.csv"`).
 
 
