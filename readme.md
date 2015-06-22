@@ -93,13 +93,13 @@ Through the hierarchy in the code it becomes obvious, which combination of possi
 <h3>ranking_language.py</h3>
 
 
-This is not needed to create the map. But, if you are interested in which language was used the most in your downloaded data, this script needs to be used. All the libraries used (`csv, operator, sqlite3) in this script come naturally with Python.  I took a detour with reading out the rows from the Database where the language was everything, but undefined ("`un") and wrote these rows to a .`csv` file. Afterwards, a dictionary and update was used to count how often which language occurred. 
+This is not needed to create the map. But, if you are interested in which language was used the most in your downloaded data, this script needs to be used. All the libraries used (`csv, operator, sqlite3`) in this script come naturally with Python.  I took a detour with reading out the rows from the Database where the language was everything, but undefined ("`un") and wrote these rows to a .`csv` file. Afterwards, a dictionary and update was used to count how often which language occurred. 
 
 
 
 <h3>ranking_tags</h3>
 
-This is not needed to create the map neither. However, it deploys a ranking which tag(s) where used the most. The `nltk library was used which comes naturally with Python. It uses the process of stemming to reduce the words to their linguistic stem which allows a more meaningful ranking ('dancer', 'dancing' and 'dance' will be reduced to 'danc' which is desired since all the words refer to the same activity). It iterates through a dictionary and only selects the rows for the matching language (a Stemmer needs a defined input language). For example in the first iteration the script only reads out the rows where the `language_final` was set to `da (danish)`. It creates a dictionary and updates it corresponding to how often a word was used and finally writes the ranking to a `.csv` file. 
+This is not needed to create the map neither. However, it deploys a ranking which tag(s) where used the most. The `nltk library` was used which comes naturally with Python. It uses the process of stemming to reduce the words to their linguistic stem which allows a more meaningful ranking ('dancer', 'dancing' and 'dance' will be reduced to 'danc' which is desired since all the words refer to the same activity). It iterates through a dictionary and only selects the rows for the matching language (a Stemmer needs a defined input language). For example in the first iteration the script only reads out the rows where the `language_final` was set to `da (danish)`. It creates a dictionary and updates it corresponding to how often a word was used and finally writes the ranking to a `.csv` file. 
 
 
 
